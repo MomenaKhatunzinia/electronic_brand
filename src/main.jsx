@@ -6,12 +6,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import AddCart from './Pages/AddCart/AddCart.jsx';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+  },
+  {
+    path: "addCart",
+    element: <AddCart></AddCart>,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
