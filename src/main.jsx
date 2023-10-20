@@ -9,6 +9,7 @@ import {
 import AddCart from './Pages/AddCart/AddCart.jsx';
 import Root from './Root/Root.jsx';
 import Home from './Pages/Home/Home';
+import ProductShow from './Pages/ProductShow/ProductShow';
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,12 @@ const router = createBrowserRouter([
       path: "/addProduct",
       element: <AddCart></AddCart>,
     },
+    {
+      path:"/brands/:name",
+      element:<ProductShow></ProductShow>,
+      loader:( ) =>fetch('http://localhost:5000/products')
+
+    }
   ]
   },
   
