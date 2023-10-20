@@ -15,6 +15,7 @@ const AddCart = () => {
         const type= form.type.value;
         const brandName= form.brandName.value;
       const addProduct = {image,name,brandName,type,price,shortDep,rate}
+      form.reset();
       console.log(addProduct)
 
       fetch('http://localhost:5000/products', {
@@ -38,7 +39,8 @@ const AddCart = () => {
     <div className="text-center lg:text-left">
       <h1 className="text-5xl font-bold ">Add Product</h1>
     </div>
-    <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+    <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100
+    ">
       <form 
       onSubmit={handelSubmit}
       
