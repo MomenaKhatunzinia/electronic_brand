@@ -1,9 +1,7 @@
 import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 
-const BrandProductShow = ({brandP}) =>
- {
-    const {image,name,brandName,type,price,rate,_id} = brandP;
+const CartShow = ({cart}) => {
+    const {image,name,brandName,type,price,shortDep,rate} = cart;
     return (
         <div>
             <div className="card w-96 bg-base-100 shadow-xl">
@@ -25,22 +23,11 @@ const BrandProductShow = ({brandP}) =>
       <div className="badge badge-outline">{brandName}</div> 
       <div className="badge badge-outline">{type}</div>
     </div>
-    <div className='space-x-4'>
-      
-<Link to={`/update/${_id}`}>
-<button className="btn btn-accent bg-sky-200">Update</button>
-</Link>
-    
-    <Link
-    to={`/detail/${_id}`}
-    >
-    <button className="btn btn-accent bg-sky-200">Details </button>
-    </Link>
-    </div>
+   
   </div>
 </div>
         </div>
     );
 };
 
-export default BrandProductShow;
+export default CartShow;
