@@ -1,4 +1,4 @@
-
+import swal from 'sweetalert';
 
 const AddCart = () => {
     const handelSubmit = event =>
@@ -29,6 +29,8 @@ const AddCart = () => {
       .then(data => 
         {
             console.log(data)
+            swal("Add SuccessFul")
+
         })
         
     }
