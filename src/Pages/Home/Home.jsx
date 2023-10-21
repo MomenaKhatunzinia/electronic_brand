@@ -1,5 +1,7 @@
 import BrandName from "../BrandName/BrandName";
 import Header from "../Header/Header";
+import ShowRom from "../Places/ShowRom";
+import UpcomingBrand from "../UpcomingB/UpcomingBrand";
 
 
 const Home = () => {
@@ -7,6 +9,9 @@ const Home = () => {
         <div className="">
             <Header></Header>
             <BrandName></BrandName>
+            
+            <UpcomingBrand></UpcomingBrand>
+            <ShowRom></ShowRom>
         </div>
     );
 };
