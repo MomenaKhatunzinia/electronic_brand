@@ -7,7 +7,7 @@ import { updateProfile } from "firebase/auth";
 
 
 const Register = () => {
-const {user, creatUser} = useContext(AuthContext)
+const {user, createUser} = useContext(AuthContext)
 const [success, setSuccess] = useState('');
 const [error, setError] = useState('')
 
@@ -45,7 +45,7 @@ const [error, setError] = useState('')
     setError("Length less then 6");
     return
    } 
-   creatUser(email,password)
+   createUser(email,password)
    .then(result =>
     {
       console.log(result.user)

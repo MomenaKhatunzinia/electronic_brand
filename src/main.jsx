@@ -14,6 +14,9 @@ import Details from './Pages/Details/Details';
 import Cart from './Pages/Cart/Cart';
 import Register from './Register/Register';
 import AuthProvider from './AuthProvider/AuthProvider';
+import Login from './Pages/Login/Login';
+import PrivateRoute from './Route/PrivateRoute';
+import SignOut from './Pages/SignOUt/SignOut';
 
 
 const router = createBrowserRouter([
@@ -33,11 +36,23 @@ const router = createBrowserRouter([
   },
     {
       path: "/addProduct",
-      element: <AddCart></AddCart>,
+      element: <PrivateRoute>
+        <AddCart></AddCart>
+      </PrivateRoute>,
     },
     {
       path:"/signUp",
       element:<Register></Register>
+
+    },
+    {
+      path:"/signOut",
+      element:<SignOut></SignOut>
+
+    },
+    {
+      path:"/signIn",
+      element:<Login></Login>
 
     },
     {

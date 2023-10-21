@@ -6,6 +6,9 @@ const Navbar = () => {
     <li><NavLink to={'/'}>Home </NavLink></li>
     <li><NavLink to={'/addProduct'}>Add Product</NavLink></li>
     <li><NavLink to={'/myCart'}>My Cart</NavLink></li>
+    <li><NavLink to={'/SignIn'}>Sign In</NavLink></li>
+    {/* <li><NavLink to={'/signOut'}>Sign Out</NavLink></li> */}
+    <li><NavLink to={'/signUp'}>Register</NavLink></li>
    
     </>
     return (
@@ -40,11 +43,7 @@ const Navbar = () => {
       {links}
     </ul>
   </div>
-  <div className="navbar-end">
-    <a className="btn 
-    
-    bg-sky-200">Login</a>
-  </div>
+ 
 </div>
         </div>
     );
