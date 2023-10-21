@@ -18,7 +18,7 @@ const AddCart = () => {
       form.reset()
       console.log(addProduct)
 
-      fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products', {
+      fetch('https://electronic-store-server-five.vercel.app/products', {
         method:'POST',
         headers: {
             'content-type' : 'application/json '

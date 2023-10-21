@@ -24,14 +24,14 @@ const router = createBrowserRouter([
   // {
   //   path: "/",
   //   element: <App></App>,
-  //   // loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
+  //   // loader:( ) =>fetch('https://electronic-store-server-five.vercel.app//products')
   // },
   {
     path: "/",
     element: <Root></Root>,
     errorElement:<ErrorPage></ErrorPage>,
    
-    // loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
+    // loader:( ) =>fetch('https://electronic-store-server-five.vercel.app//products')
   children:[{
     path: "/",
     element: <Home></Home>,
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     {
       path:"/brands/:name",
       element:<ProductShow></ProductShow>,
-      loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
+      loader:( ) =>fetch('https://electronic-store-server-five.vercel.app/products')
 
     },
     {
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
       element:<PrivateRoute>
         <Details></Details>
       </PrivateRoute>,
-      loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
+      loader:( ) =>fetch('https://electronic-store-server-five.vercel.app/products')
 
     },
     {
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
         <PrivateRoute>
           <Cart></Cart>
         </PrivateRoute>,
-      loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/productsAddCart')
+      loader:( ) =>fetch('https://electronic-store-server-five.vercel.app/productsAddCart')
 
     },
     {
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
       element:<PrivateRoute>
         <Update></Update>
       </PrivateRoute>,
-      loader:({params} ) =>fetch(`http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products/${params._id}`)
+      loader:({params} ) =>fetch(`https://electronic-store-server-five.vercel.app/products/${params._id}`)
 
     }
   ]

@@ -13,7 +13,7 @@ const ErrorPage = () => {
           <i>{error.statusText || error.message}</i>
          <div className="mt-11 flex justify-center">
          <Link to={'/'}>
-          <button className="btn bg-pink-700">Home</button>
+          <button className="btn bg-sky-200">Home</button>
           </Link>
          </div>
         </p>
