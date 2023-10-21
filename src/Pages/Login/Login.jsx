@@ -98,7 +98,7 @@ google
           </button>
          </div>
         </div>
-        <Link>
+        <Link to={'/signUp'}>
         <button className="btn btn-primary w-full bg-sky-200 text-black">Sign Up</button>
         </Link>
         <h1>{error}</h1>

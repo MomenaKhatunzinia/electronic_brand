@@ -111,7 +111,7 @@ form.reset();
         <div className="form-control mt-6 gap-7">
           <button className="btn btn-primary bg-sky-200 text-black">Sign Up</button>
          <Link to={'/signIn'}>
-         <button className="btn btn-primary bg-sky-200 text-black">Sign In</button>
+         <button className="w-full btn btn-primary bg-sky-200 text-black">Sign In</button>
 
          </Link>
         </div>
