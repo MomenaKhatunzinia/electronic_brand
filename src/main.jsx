@@ -17,19 +17,21 @@ import AuthProvider from './AuthProvider/AuthProvider';
 import Login from './Pages/Login/Login';
 import PrivateRoute from './Route/PrivateRoute';
 import SignOut from './Pages/SignOUt/SignOut';
+import ErrorPage from './ErrorPage/ErrorPage';
 
 
 const router = createBrowserRouter([
   // {
   //   path: "/",
   //   element: <App></App>,
-  //   // loader:( ) =>fetch('http://localhost:5000/products')
+  //   // loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
   // },
   {
     path: "/",
     element: <Root></Root>,
+    errorElement:<ErrorPage></ErrorPage>,
    
-    // loader:( ) =>fetch('http://localhost:5000/products')
+    // loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
   children:[{
     path: "/",
     element: <Home></Home>,
@@ -58,7 +60,7 @@ const router = createBrowserRouter([
     {
       path:"/brands/:name",
       element:<ProductShow></ProductShow>,
-      loader:( ) =>fetch('http://localhost:5000/products')
+      loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
 
     },
     {
@@ -66,7 +68,7 @@ const router = createBrowserRouter([
       element:<PrivateRoute>
         <Details></Details>
       </PrivateRoute>,
-      loader:( ) =>fetch('http://localhost:5000/products')
+      loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products')
 
     },
     {
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
         <PrivateRoute>
           <Cart></Cart>
         </PrivateRoute>,
-      loader:( ) =>fetch('http://localhost:5000/productsAddCart')
+      loader:( ) =>fetch('http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/productsAddCart')
 
     },
     {
@@ -83,7 +85,7 @@ const router = createBrowserRouter([
       element:<PrivateRoute>
         <Update></Update>
       </PrivateRoute>,
-      loader:({params} ) =>fetch(`http://localhost:5000/products/${params._id}`)
+      loader:({params} ) =>fetch(`http://electronic-store-server-8ft5vz5wp-momenakhatunzinia.vercel.app/products/${params._id}`)
 
     }
   ]
