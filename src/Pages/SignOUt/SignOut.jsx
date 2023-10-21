@@ -31,8 +31,8 @@ const SignOut = () => {
 
       : 
   <div className="flex justify-end mb-6">
-        <Link to={'/login'}>
-     <button className="btn bg-sky-200 "> Login</button>
+        <Link to={'/signIn'}>
+     <button className="btn bg-sky-200 "> Sign In</button>
       </Link>
     </div>
     }

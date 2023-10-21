@@ -59,7 +59,7 @@ const Login = () => {
             <div className="hero min-h-screen bg-base-200">
   <div className="hero-content flex-col lg:flex-row-reverse">
     <div className="text-center lg:text-left">
-      <h1 className="text-5xl font-bold">SignUp now!</h1>
+      <h1 className="text-5xl font-bold">SignIn now!</h1>
       
     </div>
     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -86,8 +86,8 @@ const Login = () => {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary">Sign In</button>
-         <div>
+          <button className="btn btn-primary bg-sky-200  text-black">Sign In</button>
+         <div className="flex justify-center items-center">
          <FcGoogle></FcGoogle>
           <button
           
@@ -98,6 +98,9 @@ google
           </button>
          </div>
         </div>
+        <Link>
+        <button className="btn btn-primary w-full bg-sky-200 text-black">Sign Up</button>
+        </Link>
         <h1>{error}</h1>
       </form>
     

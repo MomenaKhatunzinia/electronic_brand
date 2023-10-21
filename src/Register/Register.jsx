@@ -3,7 +3,7 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 import swal from 'sweetalert';
 import { updateProfile } from "firebase/auth";
 
-
+import { Link } from "react-router-dom";
 
 
 const Register = () => {
@@ -108,8 +108,12 @@ form.reset();
             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
           </label>
         </div>
-        <div className="form-control mt-6">
-          <button className="btn btn-primary">Sign Up</button>
+        <div className="form-control mt-6 gap-7">
+          <button className="btn btn-primary bg-sky-200 text-black">Sign Up</button>
+         <Link to={'/signIn'}>
+         <button className="btn btn-primary bg-sky-200 text-black">Sign In</button>
+
+         </Link>
         </div>
         <h1>{error}</h1>
       </form>
