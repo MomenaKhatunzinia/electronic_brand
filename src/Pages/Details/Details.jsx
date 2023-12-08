@@ -24,7 +24,7 @@ const Details = () => {
     {
   
   
-      fetch('http://localhost:5000/productsAddCart', {
+      fetch('https://electronic-store-server-five.vercel.app/productsAddCart', {
         method:'POST',
         headers: {
             'content-type' : 'application/json '

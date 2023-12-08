@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     {
       path:"/brands/:name",
       element:<ProductShow></ProductShow>,
-      loader:( ) =>fetch('https://electronic-store-server-1in5hs1h7-momenakhatunzinia.vercel.app/products')
+      loader:( ) =>fetch('https://electronic-store-server-five.vercel.app/products')
 
     },
     {
