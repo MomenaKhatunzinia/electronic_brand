@@ -9,32 +9,29 @@ const ProductShow = () => {
     const [brand, setBrand] = useState([]);
     const{ name} = useParams();
  
-    useEffect(()=>
-   { const matched =  brandProduct?.filter(names=>names.brandName === name)
-    
-    if(matched.length !=  0)
-    {
-       
-        setBrand(matched);
-    }
-   else{ 
-    
+   useEffect(() => {
+  const products = Array.isArray(brandProduct) ? brandProduct : [];
+
+  const matched = products.filter(
+    (p) => (p?.brandName || "").toLowerCase() === name.toLowerCase()
+  );
+
+  if (matched.length !== 0) {
+    setBrand(matched);
+  } else {
     swal({
-        
-        text: 'No available product for this brand',
-        buttons: {
-          home: 'Go Home',
-        },
-      })
-      .then((value) => {
-        if (value === 'home') {
-         
-          window.location.href = '/';
-        }
-      });
-}
-},[name,brandProduct]
-    )
+      text: "No available product for this brand",
+      buttons: {
+        home: "Go Home",
+      },
+    }).then((value) => {
+      if (value === "home") {
+        window.location.href = "/";
+      }
+    });
+  }
+}, [name, brandProduct]);
+
     return (
         <div>
             <div className="mb-11">

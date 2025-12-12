@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "electronit-store-client"
-  }
+    "default": "electronit-store-client",
+    "electronic_Store_Client": "electronit-store-client"
+  },
+  "targets": {},
+  "etags": {}
 }

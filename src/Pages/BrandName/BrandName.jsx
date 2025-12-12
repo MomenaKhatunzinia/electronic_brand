@@ -77,7 +77,7 @@ to={`/brands/${'Sony'}`}
            <div className="card w-96 bg-base-100 shadow-xl">
   <figure><img
   className="w-[400px] h-[300px]"
-   src="https://i.ibb.co/8bzfcfb/rubaitul-azad-i-L7jxe-Qv-Fu8-unsplash.jpg" alt="Shoes" /></figure>
+   src="https://i.ibb.co.com/YBWyv6WL/rubaitul-azad-i-L7jxe-Qv-Fu8-unsplash.jpg" alt="Shoes" /></figure>
   <div className="card-body">
    <Link
    to={`/brands/${'HP'}`}
