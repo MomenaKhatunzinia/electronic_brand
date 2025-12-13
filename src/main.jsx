@@ -8,31 +8,28 @@ import Update from "./Pages/Update/Update";
 import AddCart from "./Pages/AddCart/AddCart.jsx";
 import Root from "./Root/Root.jsx";
 import Home from "./Pages/Home/Home";
-import ProductShow from "./Pages/ProductShow/ProductShow";
-import Details from "./Pages/Details/Details";
+import ProductDetails from "./Pages/ProductDetails/ProductDetails.jsx";
+import BrandProducts from "./Pages/BrandProducts/BrandProducts.jsx";
 import Cart from "./Pages/Cart/Cart";
 import Register from "./Register/Register";
 import AuthProvider from "./AuthProvider/AuthProvider";
 import Login from "./Pages/Login/Login";
 import PrivateRoute from "./Route/PrivateRoute";
-import SignOut from "./Pages/SignOUt/SignOut";
 import ErrorPage from "./ErrorPage/ErrorPage";
 
 // ✅ Backend base URL from .env
 const API = import.meta.env.VITE_API_URL;
 
-// ✅ helper: throws error if API not set
 if (!API) {
   console.error("❌ VITE_API_URL is missing! Add it to your frontend .env file.");
 }
 
-// ✅ helper: loader fetch with basic error handling
 const loaderFetch = async (url) => {
   const res = await fetch(url);
   if (!res.ok) {
     throw new Response(`Failed to fetch: ${url}`, { status: res.status });
   }
-  return res;
+  return res.json();
 };
 
 const router = createBrowserRouter([
@@ -41,10 +38,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
+      { path: "/", element: <Home /> },
 
       {
         path: "/addProduct",
@@ -55,41 +49,16 @@ const router = createBrowserRouter([
         ),
       },
 
-      {
-        path: "/signUp",
-        element: <Register />,
-      },
+      { path: "/signUp", element: <Register /> },
+      { path: "/signIn", element: <Login /> },
 
-      {
-        path: "/signOut",
-        element: <SignOut />,
-      },
+      // ✅ Brand
+      { path: "/brand/:brandName", element: <BrandProducts /> },
 
-      {
-        path: "/signIn",
-        element: <Login />,
-      },
+      // ✅ Product details
+      { path: "/products/:id", element: <ProductDetails /> },
 
-      // ✅ Brand page loads all products (filter inside ProductShow)
-      {
-        path: "/brands/:name",
-        element: <ProductShow />,
-        loader: () => loaderFetch(`${API}/products`),
-      },
-
-      // ✅ Details page: better to fetch single product by id (requires backend route)
-      // If your backend doesn't have /products/:id yet, tell me and I'll give that code.
-      {
-        path: "/detail/:_id",
-        element: (
-          <PrivateRoute>
-            <Details />
-          </PrivateRoute>
-        ),
-        loader: ({ params }) => loaderFetch(`${API}/products/${params._id}`),
-      },
-
-      // ✅ Cart page
+      // ✅ Cart (loader uses /products because backend has no /productsAddCart)
       {
         path: "/cart",
         element: (
@@ -97,18 +66,18 @@ const router = createBrowserRouter([
             <Cart />
           </PrivateRoute>
         ),
-        loader: () => loaderFetch(`${API}/productsAddCart`),
+        loader: () => loaderFetch(`${API}/products`),
       },
 
-      // ✅ Update page
+      // ✅ Update
       {
-        path: "/update/:_id",
+        path: "/update/:id",
         element: (
           <PrivateRoute>
             <Update />
           </PrivateRoute>
         ),
-        loader: ({ params }) => loaderFetch(`${API}/products/${params._id}`),
+        loader: ({ params }) => loaderFetch(`${API}/products/${params.id}`),
       },
     ],
   },
