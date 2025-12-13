@@ -4,7 +4,7 @@ import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 
 const app = express();
 
-// middleware
+// ✅ middleware
 const allowedOrigins = [process.env.CLIENT_URL].filter(Boolean);
 
 app.use(
@@ -22,9 +22,8 @@ app.use(
 
 app.use(express.json());
 
-// MongoDB
+// ✅ MongoDB
 const uri = process.env.MONGODB_URI;
-
 if (!uri) {
   throw new Error(
     "MONGODB_URI is missing. Add it in Vercel Environment Variables."
@@ -41,7 +40,7 @@ const client = new MongoClient(uri, {
 
 let clientPromise;
 
-// connect helper (serverless-friendly)
+// ✅ serverless-friendly connection helper
 async function getProductsCollection() {
   if (!clientPromise) clientPromise = client.connect();
   await clientPromise;
@@ -50,12 +49,12 @@ async function getProductsCollection() {
   return db.collection("products");
 }
 
-// ROOT TEST
+// ✅ ROOT TEST
 app.get("/", (req, res) => {
   res.send("Electronic Store Server is running 🚀");
 });
 
-// HEALTH CHECK
+// ✅ HEALTH CHECK
 app.get("/health", async (req, res) => {
   try {
     const collection = await getProductsCollection();
@@ -70,14 +69,22 @@ app.get("/health", async (req, res) => {
  * ✅ GET /products
  * Optional query:
  *  - brand: /products?brand=Samsung
+ *
+ * ✅ FIX: supports both `brand` and old `brandName`
  */
 app.get("/products", async (req, res) => {
   try {
     const collection = await getProductsCollection();
 
     const { brand } = req.query;
+
     const query = brand
-      ? { brand: { $regex: `^${brand}$`, $options: "i" } }
+      ? {
+          $or: [
+            { brand: { $regex: `^${brand}$`, $options: "i" } },
+            { brandName: { $regex: `^${brand}$`, $options: "i" } }, // ✅ old schema support
+          ],
+        }
       : {};
 
     const products = await collection.find(query).toArray();
@@ -116,24 +123,29 @@ app.get("/products/:id", async (req, res) => {
 /**
  * ✅ POST /products
  * Add a single product
+ *
+ * ✅ FIX: accepts both brand / brandName and normalizes to `brand`
+ * ✅ FIX: accepts old rating fields (rate) and description fields (shortDep)
  */
 app.post("/products", async (req, res) => {
   try {
     const collection = await getProductsCollection();
     const product = req.body;
 
-    if (!product?.name || !product?.brand) {
+    const incomingBrand = product?.brand ?? product?.brandName;
+
+    if (!product?.name || !incomingBrand) {
       return res.status(400).send({ error: "name and brand are required" });
     }
 
     const doc = {
       name: product.name,
-      brand: product.brand,
+      brand: incomingBrand, // ✅ normalized
       price: Number(product.price ?? 0),
-      rating: Number(product.rating ?? 0),
+      rating: Number(product.rating ?? product.rate ?? 0),
       image: product.image ?? "",
-      description: product.description ?? "",
-      category: product.category ?? "",
+      description: product.description ?? product.shortDep ?? "",
+      category: product.category ?? product.type ?? "",
       stock: Number(product.stock ?? 0),
       createdAt: new Date(),
     };
@@ -148,6 +160,8 @@ app.post("/products", async (req, res) => {
 
 /**
  * ✅ POST /products/bulk
+ *
+ * ✅ FIX: accepts both brand / brandName and normalizes to `brand`
  */
 app.post("/products/bulk", async (req, res) => {
   try {
@@ -158,7 +172,9 @@ app.post("/products/bulk", async (req, res) => {
       return res.status(400).send({ error: "Body must be a non-empty array" });
     }
 
-    const invalid = products.find((p) => !p?.name || !p?.brand);
+    const invalid = products.find(
+      (p) => !p?.name || !(p?.brand ?? p?.brandName)
+    );
     if (invalid) {
       return res
         .status(400)
@@ -167,12 +183,12 @@ app.post("/products/bulk", async (req, res) => {
 
     const docs = products.map((p) => ({
       name: p.name,
-      brand: p.brand,
+      brand: p.brand ?? p.brandName,
       price: Number(p.price ?? 0),
-      rating: Number(p.rating ?? 0),
+      rating: Number(p.rating ?? p.rate ?? 0),
       image: p.image ?? "",
-      description: p.description ?? "",
-      category: p.category ?? "",
+      description: p.description ?? p.shortDep ?? "",
+      category: p.category ?? p.type ?? "",
       stock: Number(p.stock ?? 0),
       createdAt: new Date(),
     }));
