@@ -7,7 +7,8 @@ import { getAuth,createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithPopup
  } from "firebase/auth";
-import app from "../Firebase/firebase.config"
+
+import app from "../firebase/firebase.config"
 
 export const AuthContext = createContext(null);
 
