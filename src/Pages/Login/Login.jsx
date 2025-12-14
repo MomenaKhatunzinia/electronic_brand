@@ -6,40 +6,62 @@ import { AuthContext } from "../../AuthProvider/AuthProvider";
 
 const Login = () => {
   const { SignIn, googleSignIn } = useContext(AuthContext);
+
   const [error, setError] = useState("");
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const handelSignIn = (e) => {
+  const handelSignIn = async (e) => {
     e.preventDefault();
     setError("");
+    setBtnLoading(true);
 
     const form = new FormData(e.currentTarget);
     const email = form.get("email");
     const password = form.get("password");
 
-    SignIn(email, password)
-      .then(() => {
-        swal("Success", "Login successful", "success");
-        navigate(from, { replace: true });
-      })
-      .catch(() => {
-        setError("Invalid email or password");
-        swal("Error", "Login failed", "error");
-      });
+    try {
+      await SignIn(email, password);
+      swal("Success", "Login successful", "success");
+      navigate(from, { replace: true });
+    } catch (err) {
+      const msg =
+        err?.code === "auth/invalid-credential"
+          ? "Invalid email or password"
+          : err?.message || "Login failed";
+      setError(msg);
+      swal("Error", msg, "error");
+    } finally {
+      setBtnLoading(false);
+    }
   };
 
-  const handelGoogle = () => {
-    googleSignIn()
-      .then(() => {
-        swal("Success", "Google login successful", "success");
-        navigate(from, { replace: true });
-      })
-      .catch(() => {
-        swal("Error", "Google login failed", "error");
-      });
+  const handleGoogle = async () => {
+    setError("");
+    setBtnLoading(true);
+
+    try {
+      // AuthProvider should call popup first then redirect fallback
+      await googleSignIn();
+      // If popup works, you'll reach here and navigate.
+      // If redirect fallback triggers, the page will redirect and onAuthStateChanged will set user.
+      swal("Success", "Google sign-in started", "success");
+      navigate(from, { replace: true });
+    } catch (err) {
+      const msg =
+        err?.code === "auth/unauthorized-domain"
+          ? "This domain is not authorized in Firebase. Add your Vercel domain in Firebase Auth → Settings → Authorized domains."
+          : err?.code === "auth/popup-closed-by-user"
+          ? "Popup closed. Please try again."
+          : err?.message || "Google sign-in failed";
+      setError(msg);
+      swal("Error", msg, "error");
+    } finally {
+      setBtnLoading(false);
+    }
   };
 
   return (
@@ -61,6 +83,7 @@ const Login = () => {
                 placeholder="Email"
                 className="input input-bordered"
                 required
+                disabled={btnLoading}
               />
             </div>
 
@@ -74,24 +97,28 @@ const Login = () => {
                 placeholder="Password"
                 className="input input-bordered"
                 required
+                disabled={btnLoading}
               />
             </div>
 
             <div className="form-control mt-6">
-              <button className="btn bg-sky-200 text-black">
-                Sign In
+              <button
+                className="btn btn-primary bg-sky-200 text-black"
+                disabled={btnLoading}
+              >
+                {btnLoading ? "Signing in..." : "Sign In"}
               </button>
             </div>
 
             <button
               type="button"
-              onClick={handelGoogle}
-              className="btn btn-outline flex items-center gap-2 mt-2"
+              onClick={handleGoogle}
+              className="btn btn-outline mt-2 flex items-center justify-center gap-2"
+              disabled={btnLoading}
             >
-              <FcGoogle /> Google
+              <FcGoogle />
+              Continue with Google
             </button>
-
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
             <p className="text-center mt-4">
               New here?{" "}
@@ -99,6 +126,10 @@ const Login = () => {
                 Sign Up
               </Link>
             </p>
+
+            {error && (
+              <p className="text-red-500 text-sm mt-3 text-center">{error}</p>
+            )}
           </form>
         </div>
       </div>
